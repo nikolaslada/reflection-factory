@@ -1,8 +1,9 @@
 {
 	"name": "nikolas-lada/reflection-factory",
-	"description": "The factory class which loads parameters and injects them into constructors by reflection.",
+  	"type": "library",
+	"description": "The tiny Factory class which loads parameters and injects them into constructors by reflection.",
 	"keywords": ["factory", "reflection"],
-	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0", "LGPL-2.0", "LGPL-3.0"],
+	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0", "LGPL-3.0"],
 	"authors": [
 		{
 			"name": "Nikolas Lada",
