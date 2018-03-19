@@ -23,11 +23,11 @@ final class ReflectionFactory {
   
   /**
    * @param string $className
-   * @param array|\ArrayObject $params
+   * @param mixed $params Pass the array type or a instance of a class that implements \ArrayAccess.
    * @param \Closure $beforeCreate
    * @param bool $isStrict
    * @return object
-   * @throws \RuntimeException
+   * @throws InputNotValidException
    */
   public function createWithChecking(string $className, $params, \Closure $beforeCreate, $isStrict = FALSE) {
     $r = new \ReflectionClass($className);
@@ -37,7 +37,7 @@ final class ReflectionFactory {
     $interfaces = $r->getInterfaces();
     if (array_key_exists('\Countable', $interfaces)) {
       if (count($required) !== count($params)) {
-        throw new \RuntimeException;
+        throw new InputNotValidException;
       }
       
     }
@@ -59,7 +59,7 @@ final class ReflectionFactory {
    * @param \stdClass $params
    * @param \Closure $beforeCreate
    * @return object
-   * @throws \RuntimeException
+   * @throws InputNotValidException
    */
   public function createFromStdClassWithChecking(string $className, \stdClass $params, \Closure $beforeCreate) {
     $r = new \ReflectionClass($className);
@@ -74,8 +74,8 @@ final class ReflectionFactory {
   
   /**
    * @param array $required
-   * @param \stdClass|\ArrayObject $params
-   * @throws \RuntimeException
+   * @param object $params Pass a instance of a class that has got at least one public property.
+   * @throws InputNotValidException
    * @return array
    */
   private function checkStrictly(array $required, $params): array {
@@ -86,7 +86,7 @@ final class ReflectionFactory {
       if (isset($params->$key)) {
         $input[] = $params->$key;
       } else {
-        throw new \RuntimeException;
+        throw new InputNotValidException;
       }
       
     }
@@ -94,12 +94,17 @@ final class ReflectionFactory {
     return $input;
   }
   
+  /**
+   * @param array $required
+   * @param mixed $params array or \ArrayAccess
+   * @throws InputNotValidException
+   */
   private function check(array $required, $params) {
     foreach ($required as $v) {
       /* @var $v \ReflectionParameter */
       $key = $v->getName();
       if (!isset($params[$key])) {
-        throw new \RuntimeException;
+        throw new InputNotValidException;
       }
       
     }
