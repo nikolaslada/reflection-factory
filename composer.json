@@ -14,8 +14,11 @@
 		"php": ">= 7.1"
 	},
 	"autoload": {
-          "psr-4": {
-              "NikolasLada\\ReflectionFactory\\": "src/"
-          }
+        "psr-4": {
+            "NikolasLada\\ReflectionFactory\\": "src/"
+        }
+	},
+	"require-dev": {
+		"nette/tester": "^2.0"
 	}
 }
