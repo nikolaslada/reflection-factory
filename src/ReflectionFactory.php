@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Reflection Factory library.
+ * This file is a part of the Reflection Factory library.
  * Copyright (c) 2018 Nikolas Lada.
  * @author Nikolas Lada <nikolas.lada@gmail.com>
  */
@@ -12,6 +12,7 @@ namespace NikolasLada\ReflectionFactory;
 final class ReflectionFactory {
 
   /**
+   * It depends on order of items in array!
    * @param string $className
    * @param array $params
    * @return object
@@ -22,6 +23,7 @@ final class ReflectionFactory {
   }
   
   /**
+   * If you pass an array as $params, it depends on order of items!
    * @param string $className
    * @param mixed $params Pass the array type or a instance of a class that has got at least one public property.
    * @param \Closure $beforeCreate

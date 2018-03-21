@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Reflection Factory library.
+ * This file is a part of the Reflection Factory library.
  * Copyright (c) 2018 Nikolas Lada.
  * @author Nikolas Lada <nikolas.lada@gmail.com>
  */
@@ -44,7 +44,9 @@ $articleFromAO = $reflectionFactory->create(
 
 Assert::type('\NikolasLada\ReflectionFactory\Tests\Domain\Article', $articleFromAO);
 
-
+/**
+ * The create method with passed an array as $params depends on order items in array!
+ */
 $paramsB = [];
 $paramsB['id'] = 1;
 $paramsB['title'] = 'My first article';
