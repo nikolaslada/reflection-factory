@@ -23,12 +23,12 @@ final class ReflectionFactory {
   
   /**
    * @param string $className
-   * @param mixed $params Pass the array type or a instance of a class that implements \ArrayAccess.
+   * @param mixed $params Pass the array type or a instance of a class that has got at least one public property.
    * @param \Closure $beforeCreate
    * @return object
    * @throws InputNotValidException
    */
-  public function createWithChecking(string $className, $params, \Closure $beforeCreate) {
+  public function create(string $className, $params, \Closure $beforeCreate) {
     $r = new \ReflectionClass($className);
     $method = $r->getConstructor();
     $required = $method->getParameters();
@@ -60,7 +60,7 @@ final class ReflectionFactory {
    * @return object
    * @throws InputNotValidException
    */
-  public function createFromStdClassWithChecking(string $className, \stdClass $params, \Closure $beforeCreate) {
+  public function createFromStdClass(string $className, \stdClass $params, \Closure $beforeCreate) {
     $r = new \ReflectionClass($className);
     $method = $r->getConstructor();
     $required = $method->getParameters();

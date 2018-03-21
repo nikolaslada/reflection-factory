@@ -36,7 +36,7 @@ $beforeCreate = function() use ($params) {
 };
 
 
-$articleFromAO = $reflectionFactory->createWithChecking(
+$articleFromAO = $reflectionFactory->create(
     '\NikolasLada\ReflectionFactory\Tests\Domain\Article',
     $params,
     $beforeCreate
@@ -61,11 +61,10 @@ $beforeCreate = function() use ($paramsB) {
 };
 
 
-$articleFromArray = $reflectionFactory->createWithChecking(
+$articleFromArray = $reflectionFactory->create(
     '\NikolasLada\ReflectionFactory\Tests\Domain\Article',
     $paramsB,
     $beforeCreate
 );
 
 Assert::type('\NikolasLada\ReflectionFactory\Tests\Domain\Article', $articleFromArray);
-
