@@ -27,19 +27,23 @@ $params->content = 'Content of the article.';
 $params->created = '2018-03-20 12:00:00';
 $params->id = 1;
 $params->title = 'My first article';
-$params->updated = NULL;
+$params->updated = '2018-03-20 12:01:13';
 
 $beforeCreate = function() use ($params) {
   $params->created = new \DateTime($params->created);
-  
+
+  if (!\is_null($params->updated)) {
+    $params->updated = new \DateTime($params->updated);
+  }
+
   return $params;
 };
 
 
 $articleFromStdClass = $reflectionFactory->create(
-    '\NikolasLada\ReflectionFactory\Tests\Domain\Article',
+    \NikolasLada\ReflectionFactory\Tests\Domain\Article::class,
     $params,
     $beforeCreate
 );
 
-Assert::type('\NikolasLada\ReflectionFactory\Tests\Domain\Article', $articleFromStdClass);
+Assert::type(\NikolasLada\ReflectionFactory\Tests\Domain\Article::class, $articleFromStdClass);

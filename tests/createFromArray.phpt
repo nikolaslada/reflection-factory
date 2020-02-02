@@ -28,16 +28,20 @@ $paramsB['id'] = 1;
 $paramsB['title'] = 'My first article';
 $paramsB['content'] = 'Content of the article.';
 $paramsB['created'] = '2018-03-20 12:00:00';
-$paramsB['updated'] = NULL;
+$paramsB['updated'] = '2018-03-20 12:01:13';
 $paramsB['authorName'] = 'Nikolas Lada';
 $paramsB['authorLink'] = 'https://nikolaslada.cz';
 
 $paramsB['created'] = new \DateTime($paramsB['created']);
 
+if (!\is_null($paramsB['updated'])) {
+  $paramsB['updated'] = new \DateTime($paramsB['updated']);
+}
+
 
 $articleFromArray = $reflectionFactory->createFromArray(
-    '\NikolasLada\ReflectionFactory\Tests\Domain\Article',
+    \NikolasLada\ReflectionFactory\Tests\Domain\Article::class,
     $paramsB
 );
 
-Assert::type('\NikolasLada\ReflectionFactory\Tests\Domain\Article', $articleFromArray);
+Assert::type(\NikolasLada\ReflectionFactory\Tests\Domain\Article::class, $articleFromArray);
