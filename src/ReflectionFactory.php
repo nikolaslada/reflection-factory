@@ -13,8 +13,6 @@ final class ReflectionFactory {
 
   /**
    * It depends on order of items in array!
-   * @param string $className
-   * @param array $params
    * @return object
    */
   public function createFromArray(string $className, array $params) {
@@ -24,9 +22,6 @@ final class ReflectionFactory {
   
   /**
    * If you pass an array as $params, it depends on order of items!
-   * @param string $className
-   * @param mixed $params Pass the array type or a instance of a class that has got at least one public property.
-   * @param \Closure $beforeCreate
    * @return object
    * @throws InputNotValidException
    */
@@ -56,9 +51,6 @@ final class ReflectionFactory {
   }
   
   /**
-   * @param string $className
-   * @param \stdClass $params
-   * @param \Closure $beforeCreate
    * @return object
    * @throws InputNotValidException
    */
@@ -74,16 +66,15 @@ final class ReflectionFactory {
   }
   
   /**
-   * @param array $required
    * @param object $params Pass a instance of a class that has got at least one public property.
    * @throws InputNotValidException
-   * @return array
    */
   private function checkStrictly(array $required, $params): array {
     $input = [];
     foreach ($required as $v) {
       /* @var $v \ReflectionParameter */
       $key = $v->getName();
+
       if (isset($params->$key)) {
         $input[] = $params->$key;
       } elseif (\is_null($params->$key)) {
@@ -91,15 +82,12 @@ final class ReflectionFactory {
       } else {
         throw new InputNotValidException($key);
       }
-      
     }
     
     return $input;
   }
   
   /**
-   * @param array $required
-   * @param array $params
    * @throws InputNotValidException
    */
   private function check(array $required, array $params) {
