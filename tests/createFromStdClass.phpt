@@ -40,7 +40,7 @@ $beforeCreate = function() use ($params) {
 };
 
 
-$articleFromStdClass = ReflectionFactory::create(
+$articleFromStdClass = ReflectionFactory::createFromStdClass(
     \NikolasLada\ReflectionFactory\Tests\Domain\Article::class,
     $params,
     $beforeCreate
