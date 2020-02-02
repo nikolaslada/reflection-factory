@@ -18,7 +18,7 @@ require __DIR__ . '/../tests/domain/Article.php';
 
 Tester\Environment::setup();
 
-$reflectionFactory = new \NikolasLada\ReflectionFactory\ReflectionFactory;
+use \NikolasLada\ReflectionFactory\ReflectionFactory;
 
 $params = new \stdClass;
 $params->authorLink = 'https://nikolaslada.cz';
@@ -40,7 +40,7 @@ $beforeCreate = function() use ($params) {
 };
 
 
-$articleFromStdClass = $reflectionFactory->create(
+$articleFromStdClass = ReflectionFactory::create(
     \NikolasLada\ReflectionFactory\Tests\Domain\Article::class,
     $params,
     $beforeCreate

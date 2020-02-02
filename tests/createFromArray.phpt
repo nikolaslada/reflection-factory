@@ -18,7 +18,7 @@ require __DIR__ . '/../tests/domain/Article.php';
 
 Tester\Environment::setup();
 
-$reflectionFactory = new \NikolasLada\ReflectionFactory\ReflectionFactory;
+use \NikolasLada\ReflectionFactory\ReflectionFactory;
 
 /**
  * The createFromArray method depends on order items in array!
@@ -39,7 +39,7 @@ if (!\is_null($paramsB['updated'])) {
 }
 
 
-$articleFromArray = $reflectionFactory->createFromArray(
+$articleFromArray = ReflectionFactory::createFromArray(
     \NikolasLada\ReflectionFactory\Tests\Domain\Article::class,
     $paramsB
 );

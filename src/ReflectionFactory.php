@@ -3,19 +3,19 @@ declare(strict_types=1);
 
 /**
  * This file is a part of the Reflection Factory library.
- * Copyright (c) 2018 Nikolas Lada.
+ * Copyright (c) 2018, 2020 Nikolas Lada.
  * @author Nikolas Lada <nikolas.lada@gmail.com>
  */
 
 namespace NikolasLada\ReflectionFactory;
 
-final class ReflectionFactory {
+class ReflectionFactory {
 
   /**
    * It depends on order of items in array!
    * @return object
    */
-  public function createFromArray(string $className, array $params) {
+  public static function createFromArray(string $className, array $params) {
     $r = new \ReflectionClass($className);
     return $r->newInstanceArgs($params);
   }
@@ -25,15 +25,22 @@ final class ReflectionFactory {
    * @return object
    * @throws InputNotValidException
    */
-  public function create(string $className, $params, \Closure $beforeCreate) {
+  public static function create(string $className, $params, \Closure $beforeCreate) {
     $r = new \ReflectionClass($className);
     $method = $r->getConstructor();
     $required = $method->getParameters();
-    
     $interfaces = $r->getInterfaces();
-    if (array_key_exists('\Countable', $interfaces)) {
-      if (count($required) !== count($params)) {
-        throw new InputNotValidException;
+
+    if (array_key_exists(\Countable::class, $interfaces))
+    {
+      $countRequired = count($required);
+      $countParams = count($params);
+
+      if ($countRequired !== $countParams)
+      {
+        throw new InputNotValidException(
+            "Different number of parameters! Class $className requires $countRequired parameters. Passed $countParams parameters."
+        );
       }
       
     }
@@ -41,10 +48,10 @@ final class ReflectionFactory {
     $params = $beforeCreate();
     
     if (is_array($params)) {
-      $this->check($required, $params);
+      self::check($required, $params);
       $input = $params;
     } else {
-      $input = $this->checkStrictly($required, $params);
+      $input = self::checkStrictly($required, $params);
     }
     
     return $r->newInstanceArgs($input);
@@ -54,13 +61,13 @@ final class ReflectionFactory {
    * @return object
    * @throws InputNotValidException
    */
-  public function createFromStdClass(string $className, \stdClass $params, \Closure $beforeCreate) {
+  public static function createFromStdClass(string $className, \stdClass $params, \Closure $beforeCreate) {
     $r = new \ReflectionClass($className);
     $method = $r->getConstructor();
     $required = $method->getParameters();
     
     $params = $beforeCreate();
-    $input = $this->checkStrictly($required, $params);
+    $input = self::checkStrictly($required, $params);
     
     return $r->newInstanceArgs($input);
   }
@@ -69,7 +76,7 @@ final class ReflectionFactory {
    * @param object $params Pass a instance of a class that has got at least one public property.
    * @throws InputNotValidException
    */
-  private function checkStrictly(array $required, $params): array {
+  private static function checkStrictly(array $required, $params): array {
     $input = [];
     foreach ($required as $v) {
       /* @var $v \ReflectionParameter */
@@ -90,7 +97,7 @@ final class ReflectionFactory {
   /**
    * @throws InputNotValidException
    */
-  private function check(array $required, array $params) {
+  private static function check(array $required, array $params) {
     foreach ($required as $v) {
       /* @var $v \ReflectionParameter */
       $key = $v->getName();
